@@ -25,7 +25,6 @@ class DetailGamesViewHolder(var view: View) : ViewHolder<DetailGamesDTO>(view) {
     private val ibtnFav = view.findViewById<ImageButton>(R.id.btn_fav)
     private val tvName = view.findViewById<TextView>(R.id.tv_name)
     private val tvMetacritic = view.findViewById<TextView>(R.id.tv_metacritic_rate)
-    private val tvDesc = view.findViewById<TextView>(R.id.tv_description)
     private val tvReleased =
         view.findViewById<TextView>(R.id.tv_relased_date)
 
@@ -34,7 +33,6 @@ class DetailGamesViewHolder(var view: View) : ViewHolder<DetailGamesDTO>(view) {
             ivPhotoPath.loadImage(it.imagePath ?: "")
             tvName.text = it.nameOfGame
             tvMetacritic.text = it.metacriticRate
-            tvDesc.text = it.description
             tvReleased.text = it.releasedDate
         }
         ibtnFav.setOnClickListener {

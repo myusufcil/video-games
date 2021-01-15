@@ -14,13 +14,13 @@ import javax.inject.Inject
 
 class HomePageSliderViewHolder(var view: View) : ViewHolder<HomePageSliderDTO>(view) {
 
-    private var viewPager: LoopingViewPager = view.findViewById(R.id.viewpager)
+    private var viewPager: LoopingViewPager? = view.findViewById(R.id.viewpager) as? LoopingViewPager
 
     override fun bind(item: HomePageSliderDTO) {
         val adapter =
             HomePageSliderViewPagerAdapter(view.context, item.itemList, false, clickListener)
-        viewPager.adapter = adapter
-        viewPager.resumeAutoScroll()
+        viewPager?.adapter = adapter
+        viewPager?.resumeAutoScroll()
     }
 
     private var clickListener = object :

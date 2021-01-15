@@ -13,10 +13,10 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:scaleType="fitXY"
                 android:id="@+id/iv_detail_games"
                 android:layout_width="match_parent"
-                android:layout_height="220dp" />
+                android:layout_height="220dp"
+                android:scaleType="fitXY" />
 
             <ImageButton
                 android:id="@+id/btn_fav"
@@ -63,13 +63,4 @@
         android:textColor="@color/black"
         android:textSize="@dimen/material_16dp" />
 
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/material_12dp"
-        android:layout_marginTop="@dimen/material_4dp"
-        android:text="@string/dev_text_desc"
-        android:textColor="@color/black"
-        android:textSize="@dimen/material_16dp" />
 </LinearLayout>

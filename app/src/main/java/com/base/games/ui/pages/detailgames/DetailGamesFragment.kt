@@ -1,7 +1,10 @@
 package com.base.games.ui.pages.detailgames
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Base64
 import android.view.View
+import android.webkit.*
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.base.component.GamesRecyclerviewAdapter
@@ -14,6 +17,8 @@ import com.base.games.ui.base.fragment.BaseDataFetchFragment
 import com.base.games.R
 import com.base.games.ui.pages.detailgames.viewmodel.DetailGamesFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_detail_games.*
+import org.json.JSONObject
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -60,6 +65,45 @@ class DetailGamesFragment : BaseDataFetchFragment<DetailGamesFragmentViewModel>(
         bindObserver()
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    fun setupNewsDetailWebView(htmlData: String) {
+        val webView = WebView(requireActivity())
+        webView.loadUrl("file:///android_asset/index.html")
+        webView.addJavascriptInterface(WebAppInterface(), "AndroidInterface")
+        val webSettings = webView.settings
+        webSettings.domStorageEnabled = true
+        webSettings.javaScriptEnabled = true
+        webView.webViewClient = NewDetailWebViewClient(htmlData)
+        webView.webChromeClient = NewsDetailWebChromeClient()
+    }
+
+    inner class WebAppInterface {
+        @JavascriptInterface
+        fun htmlResult(result: String?) {
+            activity!!.runOnUiThread {
+                Timber.d(result.toString())
+                viewModel.parseHtmlData(result)
+            }
+        }
+    }
+
+    private class NewDetailWebViewClient(var htmlData: String) : WebViewClient() {
+        override fun onPageFinished(view: WebView, url: String) {
+            view.loadUrl("javascript:alert(htmlParseAndroid('$htmlData'))")
+        }
+    }
+
+    private class NewsDetailWebChromeClient : WebChromeClient() {
+        override fun onJsAlert(
+            view: WebView?, url: String?, message: String?, result: JsResult?
+        ): Boolean {
+            Timber.d(message)
+            result?.confirm()
+            return true
+        }
+    }
+
+
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         args.let {
@@ -81,6 +125,18 @@ class DetailGamesFragment : BaseDataFetchFragment<DetailGamesFragmentViewModel>(
                     is DataFetchResult.Failure -> {
                     }
                     is DataFetchResult.Success -> {
+                        it.data.let {
+                            val jsonData = JSONObject().apply {
+                                put("HtmlText", it.description)
+                                put("ContentId", it.id)
+                            }
+
+                            val base64Data = Base64.encodeToString(
+                                jsonData.toString().toByteArray(),
+                                Base64.DEFAULT
+                            )
+                            setupNewsDetailWebView(base64Data)
+                        }
                     }
                 }
             })
