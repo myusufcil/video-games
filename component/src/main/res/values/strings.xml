@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_page_game_name">Name Of Game</string>
+    <string name="home_page_game_rating_released">Rating - released</string>
+    <string name="text_name_of_game">God Of War</string>
+    <string name="released_date">2013-03-05</string>
+    <string name="metacritic_rate">93</string>
+    <string name="not_found">Üzgünüz, aradığınız oyun bulunamadı!</string>
+    <string name="dev_text_desc">Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500 lerden beri endüstri standardı sahte metinler olarak kullanılmıştır.</string>
+</resources>
